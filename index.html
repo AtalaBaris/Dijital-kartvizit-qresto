@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QResto Ekibi — Dijital Kartvizit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+        :root {
+            --bg: #FDF9F1;
+            --surface: #FFFFFF;
+            --ink: #1f1f1f;
+            --muted: #5c5c5c;
+            --accent: #E85D04;
+            --accent-soft: #FFF2E8;
+            --border: #efe6da;
+            --shadow: 0 12px 40px rgba(31, 31, 31, 0.06);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "DM Sans", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            min-height: 100vh;
+            padding: clamp(24px, 5vw, 48px) clamp(16px, 4vw, 28px) 56px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: clamp(28px, 5vw, 44px);
+            max-width: 560px;
+        }
+        .logo-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 18px;
+            background: transparent;
+        }
+        .logo-wrap img {
+            max-width: min(100%, 300px);
+            max-height: min(40vh, 300px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            background: transparent;
+        }
+        .team-title {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: clamp(1.35rem, 3.5vw, 1.65rem);
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 14px;
+        }
+        .team-title::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 56px;
+            height: 3px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #f59e0b, var(--accent));
+        }
+        .header-contact {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-contact-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .header-contact-label i {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 920px;
+        }
+        .card {
+            background: var(--surface);
+            border-radius: 18px;
+            padding: 26px 22px 24px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--accent);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 48px rgba(232, 93, 4, 0.12);
+        }
+        .avatar {
+            position: relative;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            background: var(--accent-soft);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            border: 2px solid #ffe8d9;
+            overflow: hidden;
+        }
+        .avatar img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .name {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .role {
+            font-size: 0.88rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+            line-height: 1.4;
+        }
+        .email-row {
+            margin-bottom: 12px;
+        }
+        .cv-row {
+            margin-bottom: 18px;
+        }
+        .cv-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--ink);
+            text-decoration: none;
+            padding: 9px 16px;
+            background: var(--surface);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+        .cv-btn:hover {
+            background: var(--accent-soft);
+            border-color: #ffb899;
+            color: var(--accent);
+        }
+        .cv-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .cv-btn i { font-size: 0.95em; flex-shrink: 0; }
+        .email-display {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 10px 14px;
+            background: var(--accent-soft);
+            border-radius: 10px;
+            border: 1px solid #ffd8c2;
+            word-break: break-all;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .email-display:hover {
+            background: #ffe4d4;
+            border-color: #ffb899;
+        }
+        .email-display i { font-size: 0.9em; flex-shrink: 0; }
+        .social-icons {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            align-items: center;
+        }
+        .social-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.15rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .social-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        }
+        .social-icon:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+        .icon-linkedin { background: #0A66C2; }
+        .icon-github { background: #24292f; }
+        .placeholder-note {
+            margin-top: 28px;
+            max-width: 720px;
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+        @media (max-width: 520px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo-wrap">
+            <img src="qresto-logo.png" alt="QResto" width="500" height="500">
+        </div>
+        <h1 class="team-title">QResto Ekibi</h1>
+        <div class="header-contact">
+            <p class="header-contact-label">
+                <i class="fa-solid fa-address-card" aria-hidden="true"></i>
+                İletişim
+            </p>
+            <a class="email-display" href="mailto:qrestonet@gmail.com">
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                <span>Qrestonet@gmail.com</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="grid">
+        <article class="card">
+            <div class="avatar">
+                <img src="img/baris-atala.jpeg" alt="Barış Atala" width="144" height="144" loading="lazy" decoding="async">
+            </div>
+            <h2 class="name">Barış Atala</h2>
+            <p class="role">Kurucu Ortak &amp; Full-Stack Developer</p>
+            <div class="email-row">
+                <a class="email-display" href="mailto:barisatala@outlook.com">
+                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                    <span>barisatala@outlook.com</span>
+                </a>
+            </div>
+            <div class="cv-row">
+                <a class="cv-btn" href="cv/baris-atala.pdf" download>
+                    <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                    CV indir
+                </a>
+            </div>
+            <div class="social-icons">
+                <a class="social-icon icon-linkedin" href="https://www.linkedin.com/in/barış-atala-08259526a/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="Barış Atala LinkedIn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+                <a class="social-icon icon-github" href="https://github.com/AtalaBaris" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="Barış Atala GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="avatar">
+                <img src="img/alper-temiz.png" alt="Alper Temiz" width="144" height="144" loading="lazy" decoding="async">
+            </div>
+            <h2 class="name">Alper Temiz</h2>
+            <p class="role">QResto Ekibi</p>
+            <div class="email-row">
+                <a class="email-display" href="mailto:alpertemiz15@gmail.com">
+                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                    <span>alpertemiz15@gmail.com</span>
+                </a>
+            </div>
+            <div class="cv-row">
+                <a class="cv-btn" href="cv/alper-temiz.pdf" download>
+                    <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                    CV indir
+                </a>
+            </div>
+            <div class="social-icons">
+                <a class="social-icon icon-linkedin" href="https://www.linkedin.com/in/alpertemizz/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="Alper Temiz LinkedIn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+                <a class="social-icon icon-github" href="https://github.com/alperrte" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="Alper Temiz GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="avatar">
+                <img src="img/umut-yesilyurt.jpeg" alt="Umut Yeşilyurt" width="144" height="144" loading="lazy" decoding="async">
+            </div>
+            <h2 class="name">Umut Yeşilyurt</h2>
+            <p class="role">QResto Ekibi</p>
+            <div class="email-row">
+                <a class="email-display" href="mailto:umutyesilyurt6134@gmail.com">
+                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                    <span>umutyesilyurt6134@gmail.com</span>
+                </a>
+            </div>
+            <div class="cv-row">
+                <a class="cv-btn" href="cv/umut-yesilyurt.pdf" download>
+                    <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                    CV indir
+                </a>
+            </div>
+            <div class="social-icons">
+                <a class="social-icon icon-linkedin" href="https://www.linkedin.com/in/umut-yeşilyurt/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="Umut Yeşilyurt LinkedIn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+                <a class="social-icon icon-github" href="https://github.com/Umutys61" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="Umut Yeşilyurt GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </article>
+
+        <article class="card">
+            <div class="avatar">
+                <img src="img/nisa-camci.png" alt="Nisa Camci" width="144" height="144" loading="lazy" decoding="async">
+            </div>
+            <h2 class="name">Nisa Camci</h2>
+            <p class="role">QResto Ekibi</p>
+            <div class="email-row">
+                <a class="email-display" href="mailto:nscmc34@gmail.com">
+                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                    <span>nscmc34@gmail.com</span>
+                </a>
+            </div>
+            <div class="cv-row">
+                <a class="cv-btn" href="cv/nisa-camci.pdf" download>
+                    <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                    CV indir
+                </a>
+            </div>
+            <div class="social-icons">
+                <a class="social-icon icon-linkedin" href="https://www.linkedin.com/in/nisa-camci/" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="Nisa Camci LinkedIn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+                <a class="social-icon icon-github" href="https://github.com/Camcinisa" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="Nisa Camci GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+        </article>
+    </main>
+
+    <p class="placeholder-note">
+        CV dosyalarını <strong>cv/</strong> klasörüne şu adlarla ekleyin: <code>baris-atala.pdf</code>, <code>alper-temiz.pdf</code>, <code>umut-yesilyurt.pdf</code>, <code>nisa-camci.pdf</code>.
+    </p>
+
+</body>
+</html>
